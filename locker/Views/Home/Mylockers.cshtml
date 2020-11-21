@@ -26,6 +26,7 @@
             }
         </div>
     </div>
+ <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script>
         var label = document.getElementById("label");
         var button = document.getElementById("myCheck");
@@ -35,31 +36,25 @@
             label.style.background = "gray";
         }
         button.addEventListener('click', e => {
+            var pin =@ViewBag.Pin;
             if (button.checked == true) {
                 console.log("on")
-                var url = "http://192.168.2.64/on_off.php?on"
-                $.post(url);
+                var url = "http://192.168.2.64/on_off.php?on=@ViewBag.Pin"
+                $.get(url);
                 $.ajax({
                     url: "/home/authLocker/" + @ViewBag.Boxid,
                     type: 'PUT',
-                    data: "value=1",
-                    success: function (data) {
-                        console.log("1")
-                        console.log("/home/authLocker/" + @ViewBag.Boxid);
-                    }
+                    data: "value=1"
                 });
             }
             else {
                 console.log("off  ")
-                var url = "http://192.168.2.64/on_off.php?off";
-                $.post(url);
+                var url = "http://192.168.2.64/on_off.php?off=@ViewBag.Pin";
+                $.get(url);
                 $.ajax({
                     url: "/home/authLocker/" + @ViewBag.Boxid,
                     type: 'PUT',
                     data: "value=0" ,
-                    success: function (data) {
-                        console.log("0")
-                    }
                 });
             }
         })
